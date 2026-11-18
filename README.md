@@ -18,7 +18,7 @@
 |---|---|
 | **무엇을** | "오늘 뭐 먹지?"를 식당 주문처럼 — 메뉴판에서 메모를 남겨 주문하면 주방에 주문서가 붙는다 |
 | **어떻게** | 주문은 Supabase(PostgreSQL)에 저장하고 **Realtime** 구독으로 두 기기에 바로 반영, 메뉴판은 기기별 `localStorage` |
-| **특징** | 색연필로 그린 듯한 주방장 · 음식 일러스트, 깅엄 천 · 레이스 핀보드, 할리갈리 같은 주문 벨 소리, 메뉴 BEST 표시, 터치 드래그로 순서 변경 |
+| **특징** | 거품기를 든 주방장 캐릭터와 색연필로 그린 듯한 음식 일러스트, 깅엄 천 · 레이스 핀보드, 할리갈리 같은 주문 벨 소리, 메뉴 BEST 표시, 터치 드래그로 순서 변경 |
 
 ---
 
@@ -33,7 +33,7 @@
 </tr>
 <tr>
 <td align="center"><sub><b>스플래시</b> — 거품기와 볼을 든 주방장, 2.8초 후(또는 탭하면) 홈으로</sub></td>
-<td align="center"><sub><b>홈</b> — 창가 식탁 장면, 메뉴판 · 주방 · 메뉴 편집으로 이동</sub></td>
+<td align="center"><sub><b>홈</b> — 창가 식탁 앞의 주방장, 메뉴판 · 주방 · 메뉴 편집으로 이동</sub></td>
 </tr>
 </table>
 
@@ -139,7 +139,7 @@ Realtime 을 쓰려면 Supabase 대시보드에서 `orders` 테이블의 Realtim
 src/
 ├── App.tsx              # 화면 전환 (home | menu | kitchen | edit) + Realtime 구독 · 새 주문 벨
 ├── components/
-│   ├── Art.tsx          # 색연필 일러스트: 주방장 · 음식 20종 · 벨 · 단추 · 리본
+│   ├── Art.tsx          # 색연필 일러스트(음식 20종 · 벨 · 단추 · 리본) + 주방장 이미지
 │   ├── SplashScreen.tsx # 시작 화면
 │   ├── HomeScreen.tsx   # 홈 (창가 식탁 장면)
 │   ├── MenuTab.tsx      # 메뉴판 · 메모 · 띵! 주문하기
@@ -150,7 +150,8 @@ src/
 ├── supabase.ts          # Supabase 클라이언트
 ├── types.ts             # MenuItem, Order
 └── app.css              # 하얀 종이 · 색연필 테마
-index.html               # Gaegu 폰트 · #crayon / #wobble SVG 필터
+index.html               # Gaegu 폰트 · #wobble / #pencil-grain SVG 필터
+public/chef.png          # 주방장 캐릭터 이미지
 ```
 
 ---
