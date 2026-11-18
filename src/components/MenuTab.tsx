@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import { MenuItem, Order } from '../types'
 import { loadMenu, saveMenu, saveOrder, getNextOrderNumber } from '../storage'
+import { playOrderBell } from '../sound'
+import { Bell, Chef, FoodArt, iconOf } from './Art'
 
 interface Props {
   onOrder: () => void
 }
 
+function MenuRow({ item, onNote }: { item: MenuItem; onNote: (id: string, note: string) => void }) {
+  return (
+    <div className={`menu-row ${item.note.trim() ? 'filled' : ''}`}>
+      <div className="menu-row-left">
+        <FoodArt icon={iconOf(item)} size={40} className="menu-art" />
+        <span className="menu-name">{item.name}</span>
+        {item.isBest && <span className="best-badge">BEST</span>}
+      </div>
+      <input
+        className="menu-note-input"
+        value={item.note}
+        onChange={e => onNote(item.id, e.target.value)}
+        placeholder="메모"
+      />
+    </div>
+  )
+}
+
 export default function MenuTab({ onOrder }: Props) {
   const [menu, setMenu] = useState<MenuItem[]>(loadMenu)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [ringing, setRinging] = useState(false)
   const [orderNo, setOrderNo] = useState<number>(1)
   const [currentOrderNo, setCurrentOrderNo] = useState<number>(1)
 
@@ -26,7 +47,11 @@ export default function MenuTab({ onOrder }: Props) {
 
   async function handleOrder() {
     const filled = menu.filter(i => i.note.trim())
-    if (!filled.length) return
+    if (!filled.length || ringing) return
+
+    // 버튼을 누르자마자 벨을 울린다 (소리는 사용자 탭 안에서 시작해야 모바일에서도 난다)
+    playOrderBell()
+    setRinging(true)
 
     const no = await getNextOrderNumber()
     const order: Order = {
@@ -48,6 +73,7 @@ export default function MenuTab({ onOrder }: Props) {
       return cleared
     })
 
+    setTimeout(() => setRinging(false), 700)
     setTimeout(() => setShowSuccess(false), 2200)
   }
 
@@ -57,63 +83,38 @@ export default function MenuTab({ onOrder }: Props) {
 
   return (
     <div className="menu-tab">
-      <div className="menu-header">
-        <span className="menu-header-no">no. {currentOrderNo}</span>
-        <h2 className="menu-header-title">뭉뭉식탁 메뉴판</h2>
-        <div className="menu-header-line" />
-      </div>
-
       <div className="menu-scroll">
-        <div className="menu-section">
-          <div className="menu-section-label">🍽 음식</div>
-          {food.map(item => (
-            <div key={item.id} className={`menu-row ${item.note.trim() ? 'filled' : ''}`}>
-              <div className="menu-row-left">
-                <span className="menu-emoji">{item.emoji}</span>
-                <span className="menu-name">{item.name}</span>
-                {item.isBest && <span className="best-badge">BEST</span>}
-              </div>
-              <input
-                className="menu-note-input"
-                value={item.note}
-                onChange={e => updateNote(item.id, e.target.value)}
-                placeholder="메모"
-              />
-            </div>
-          ))}
-        </div>
+        <div className="menu-paper">
+          <div className="menu-header">
+            <span className="menu-header-no">no. {currentOrderNo}</span>
+            <h2 className="menu-header-title">오늘의 식탁 메뉴판</h2>
+            <div className="menu-header-line" />
+          </div>
 
-        <div className="menu-section">
-          <div className="menu-section-label">🥤 음료</div>
-          {drinks.map(item => (
-            <div key={item.id} className={`menu-row ${item.note.trim() ? 'filled' : ''}`}>
-              <div className="menu-row-left">
-                <span className="menu-emoji">{item.emoji}</span>
-                <span className="menu-name">{item.name}</span>
-                {item.isBest && <span className="best-badge">BEST</span>}
-              </div>
-              <input
-                className="menu-note-input"
-                value={item.note}
-                onChange={e => updateNote(item.id, e.target.value)}
-                placeholder="메모"
-              />
-            </div>
-          ))}
+          <div className="menu-section">
+            <div className="menu-section-label">음식</div>
+            {food.map(item => <MenuRow key={item.id} item={item} onNote={updateNote} />)}
+          </div>
+
+          <div className="menu-section">
+            <div className="menu-section-label drink">음료</div>
+            {drinks.map(item => <MenuRow key={item.id} item={item} onNote={updateNote} />)}
+          </div>
         </div>
       </div>
 
       <div className="order-bar">
-        <button className="order-btn" onClick={handleOrder} disabled={filledCount === 0}>
-          {filledCount > 0 ? `🐾 주문하기! (${filledCount}개)` : '메뉴에 메모를 입력해주세요'}
+        <button className={`order-btn ${ringing ? 'ringing' : ''}`} onClick={handleOrder} disabled={filledCount === 0}>
+          <Bell size={34} className="order-bell" />
+          {filledCount > 0 ? `띵! 주문하기 (${filledCount}개)` : '메뉴에 메모를 적어 주세요'}
         </button>
       </div>
 
       {showSuccess && (
         <div className="toast-overlay">
           <div className="toast-box">
-            <span className="toast-dog">🐶</span>
-            <span className="toast-text">no. {orderNo} 주문서가 접수되었습니다!</span>
+            <Chef size={96} />
+            <span className="toast-text">no. {orderNo} 주문서가<br />주방에 쏙 들어갔어요!</span>
           </div>
         </div>
       )}

@@ -3,14 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>뭉뭉식탁</title>
-    <meta name="theme-color" content="#FFF8F0" />
-    <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FFF8F0; }
-    </style>
+    <title>오늘의 식탁</title>
+    <meta name="theme-color" content="#FFFDF8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <!-- 색연필 필터: 선을 살짝 흔들고(displacement) 면에 거친 결(grain)을 남긴다 -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="warp" />
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.6" result="wobbly" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="1" seed="9" result="grain" />
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.2 0 0 0 1.9" result="mask" />
+        <feComposite in="wobbly" in2="mask" operator="in" />
+      </filter>
+      <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" />
+        <feDisplacementMap in="SourceGraphic" scale="2.4" />
+      </filter>
+    </svg>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
