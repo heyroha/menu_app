@@ -32,7 +32,7 @@
 <td align="center" width="50%"><img src="docs/screenshots/02_home.jpg" width="250"/></td>
 </tr>
 <tr>
-<td align="center"><sub><b>스플래시</b> — 거품기와 볼을 든 주방장 스티커, 2.8초 후(또는 탭하면) 홈으로</sub></td>
+<td align="center"><sub><b>스플래시</b> — 거품기와 볼을 든 주방장, 2.8초 후(또는 탭하면) 홈으로</sub></td>
 <td align="center"><sub><b>홈</b> — 창가 식탁 장면, 메뉴판 · 주방 · 메뉴 편집으로 이동</sub></td>
 </tr>
 </table>
@@ -78,7 +78,7 @@
 </tr>
 </table>
 
-> 스크린샷은 실제 DB 대신 샘플 주문 데이터로 찍었습니다. 일러스트는 모두 직접 그린 SVG예요.
+> 스크린샷은 실제 DB 대신 샘플 주문 데이터로 찍었습니다. 주방장 캐릭터(`public/chef.png`)는 Pinterest 에서 가져온 이미지로, 원작자 표기가 필요합니다. 그 밖의 일러스트는 직접 그린 SVG예요.
 >
 > 예전 이름(뭉뭉식탁)으로 저장된 기기의 메뉴판도 그대로 이어서 쓸 수 있도록 `localStorage` 키는 바꾸지 않았고, 이모지로 저장된 예전 메뉴 · 주문은 가장 비슷한 음식 그림으로 보여 줍니다.
 
@@ -109,7 +109,7 @@
 | 영역 | 기술 |
 |---|---|
 | Frontend | React 18 (`useState` · `useEffect`), TypeScript, Vite |
-| 그림 | 직접 그린 인라인 SVG (주방장 · 음식 20종 · 벨 · 단추 · 리본), SVG `feTurbulence` 필터로 색연필 질감, `feMorphology` 로 스티커 테두리 |
+| 그림 | 음식 20종 · 벨 · 단추 · 리본은 직접 그린 인라인 SVG, SVG `feTurbulence` 필터로 색연필 질감. 주방장은 `public/chef.png` |
 | 스타일 | Gaegu 손글씨체, 비스듬한 줄무늬로 칠한 색연필 면, CSS 깅엄 · `border-image` 레이스 |
 | 소리 | Web Audio API 로 탁상 벨 합성 (음원 파일 없음) |
 | Backend | Supabase — PostgreSQL + Realtime `postgres_changes` |

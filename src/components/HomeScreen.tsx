@@ -12,7 +12,7 @@ export default function HomeScreen({ onNavigate }: Props) {
         {/* 창문 · 식탁이 있는 작은 주방 장면 */}
         <div className="home-scene">
           <div className="scene-window" />
-          <Chef size={170} className="home-chef" />
+          <Chef size={204} className="home-chef" />
           <div className="scene-table" />
           <FoodArt icon="toast" size={46} className="scene-food left" />
           <FoodArt icon="milktea" size={44} className="scene-food right" />
