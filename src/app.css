@@ -121,7 +121,7 @@ button { cursor: pointer; background: none; border: none; }
   border: 2.6px solid var(--ink);
   filter: url(#wobble);
 }
-.home-chef { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); }
+.home-chef { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); }
 .scene-table {
   position: absolute;
   left: 0;

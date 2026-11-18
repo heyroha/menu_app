@@ -32,7 +32,7 @@
 <td align="center" width="50%"><img src="docs/screenshots/02_home.jpg" width="250"/></td>
 </tr>
 <tr>
-<td align="center"><sub><b>스플래시</b> — 오므라이스를 든 주방장, 2.8초 후(또는 탭하면) 홈으로</sub></td>
+<td align="center"><sub><b>스플래시</b> — 거품기와 볼을 든 주방장 스티커, 2.8초 후(또는 탭하면) 홈으로</sub></td>
 <td align="center"><sub><b>홈</b> — 창가 식탁 장면, 메뉴판 · 주방 · 메뉴 편집으로 이동</sub></td>
 </tr>
 </table>
@@ -109,7 +109,7 @@
 | 영역 | 기술 |
 |---|---|
 | Frontend | React 18 (`useState` · `useEffect`), TypeScript, Vite |
-| 그림 | 직접 그린 인라인 SVG (주방장 · 음식 20종 · 벨 · 단추 · 리본), SVG `feTurbulence` 필터로 색연필 질감 |
+| 그림 | 직접 그린 인라인 SVG (주방장 · 음식 20종 · 벨 · 단추 · 리본), SVG `feTurbulence` 필터로 색연필 질감, `feMorphology` 로 스티커 테두리 |
 | 스타일 | Gaegu 손글씨체, 비스듬한 줄무늬로 칠한 색연필 면, CSS 깅엄 · `border-image` 레이스 |
 | 소리 | Web Audio API 로 탁상 벨 합성 (음원 파일 없음) |
 | Backend | Supabase — PostgreSQL + Realtime `postgres_changes` |

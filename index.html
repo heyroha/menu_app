@@ -20,6 +20,16 @@
         <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.23  0 0 0 0 0.16  -3.2 0 0 0 1.75" result="speck" />
         <feComposite in="speck" in2="SourceAlpha" operator="in" />
       </filter>
+      <!-- 스티커처럼 그림 바깥에 하얀 테두리 -->
+      <filter id="sticker" x="-10%" y="-10%" width="120%" height="120%">
+        <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="outer" />
+        <feFlood flood-color="#e9e1d8" />
+        <feComposite in2="outer" operator="in" result="edge" />
+        <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="inner" />
+        <feFlood flood-color="#ffffff" />
+        <feComposite in2="inner" operator="in" result="white" />
+        <feMerge><feMergeNode in="edge" /><feMergeNode in="white" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
       <filter id="blush" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="2.6" />
       </filter>
