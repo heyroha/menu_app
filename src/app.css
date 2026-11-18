@@ -120,7 +120,6 @@ button { cursor: pointer; background: none; border: none; }
     repeating-linear-gradient(-58deg, rgba(200, 228, 250, 0.95) 0 3px, rgba(220, 238, 252, 0.6) 3px 5px);
   border: 2.6px solid var(--ink);
   filter: url(#wobble);
-  opacity: 0.85;
 }
 .home-chef { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); }
 .scene-table {

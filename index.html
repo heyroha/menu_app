@@ -10,14 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <!-- 색연필 필터: 선을 살짝 흔들고(displacement) 면에 거친 결(grain)을 남긴다 -->
+    <!-- 색연필 필터
+         #wobble: 선을 살짝 흔든다 (그림 본체, 불투명)
+         #pencil-grain: 그 위에 갈색 결을 얹어 색연필로 칠한 질감을 낸다 (면 밖으로는 안 나감)
+         #blush: 볼터치를 번지게 -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-      <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="warp" />
-        <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.6" result="wobbly" />
-        <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="1" seed="9" result="grain" />
-        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.2 0 0 0 1.9" result="mask" />
-        <feComposite in="wobbly" in2="mask" operator="in" />
+      <filter id="pencil-grain" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.95 0.3" numOctaves="2" seed="3" result="n" />
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.23  0 0 0 0 0.16  -3.2 0 0 0 1.75" result="speck" />
+        <feComposite in="speck" in2="SourceAlpha" operator="in" />
+      </filter>
+      <filter id="blush" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2.6" />
       </filter>
       <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
         <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" />

@@ -3,13 +3,13 @@ import { MenuItem } from '../types'
 
 /**
  * 색연필로 그린 듯한 일러스트 모음 (직접 그린 SVG).
- * index.html 의 #crayon 필터가 선과 면을 살짝 거칠게 만든다.
+ * index.html 의 #wobble · #pencil-grain 필터로 선은 살짝 흔들리고 면에는 색연필 결이 남는다.
  */
 
 const INK = '#5b3a29'
 const BLUSH = '#ff9e9e'
-const SKIN = '#ffe3cf'
-const HAIR = '#8b5a3c'
+const SKIN = '#fde3cc'
+const HAIR = '#8a5a3b'
 const EGG = '#ffd96a'
 const KETCHUP = '#e8553f'
 const RICE = '#fffdf6'
@@ -51,7 +51,11 @@ function Svg({ size, vb = '0 0 100 100', children, className, title }: {
   return (
     <svg viewBox={vb} width={size} height={size} className={className}
       role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
-      <g filter="url(#crayon)" stroke={INK} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none">
+      {/* 본체는 불투명하게 그리고, 같은 그림에 색연필 결만 한 겹 더 얹는다 */}
+      <g filter="url(#wobble)" stroke={INK} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {children}
+      </g>
+      <g filter="url(#pencil-grain)" opacity={0.28} stroke={INK} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" fill="none">
         {children}
       </g>
     </svg>
@@ -291,44 +295,54 @@ function food(icon: FoodIcon) {
   }
 }
 
-/** 주방장: 갈색 웨이브 머리에 하얀 요리 모자, 오므라이스 접시를 든 아이 */
+/** 주방장: 풍성한 갈색 웨이브 머리 · 작은 요리 모자 · 딸기 머리핀, 오므라이스 접시를 든 아이 */
 export function Chef({ size = 200, className }: { size?: number | string; className?: string }) {
+  const hairLine = '#6e452c'
   return (
     <Svg size={size} vb="0 0 200 240" className={className} title="주방장">
-      {/* 뒷머리 */}
-      <path d="M46 92 C28 132 30 186 52 206 C64 216 76 206 72 190 L128 190 C124 206 136 216 148 206 C170 186 172 132 154 92 Z" fill={HAIR} />
-      {/* 요리사 옷 */}
-      <path d="M60 170 C54 192 52 218 56 238 H144 C148 218 146 192 140 170 C126 160 74 160 60 170 Z" fill="#fffdf8" />
-      <path d="M100 182 V236" strokeWidth={2} opacity={0.5} />
-      <circle cx="90" cy="198" r="2.4" fill={INK} stroke="none" /><circle cx="90" cy="214" r="2.4" fill={INK} stroke="none" />
-      <circle cx="110" cy="198" r="2.4" fill={INK} stroke="none" /><circle cx="110" cy="214" r="2.4" fill={INK} stroke="none" />
-      <path d="M86 166 L100 184 L114 166 Z" fill="#ff9fb2" />
-      {/* 얼굴 */}
-      <ellipse cx="100" cy="120" rx="48" ry="44" fill={SKIN} />
-      {/* 앞머리 · 옆머리 */}
-      <path d="M52 116 C48 82 70 66 100 66 C130 66 152 82 148 116 C140 102 132 94 124 102 C118 92 108 90 100 100 C92 90 80 92 76 102 C68 94 60 102 52 116 Z" fill={HAIR} />
-      <path d="M54 104 C40 128 42 164 58 182 C62 162 58 132 64 114 Z" fill={HAIR} />
-      <path d="M146 104 C160 128 158 164 142 182 C138 162 142 132 136 114 Z" fill={HAIR} />
-      {/* 요리 모자 */}
-      <path d="M58 58 C40 52 40 24 62 22 C64 4 90 0 100 12 C110 0 136 4 138 22 C160 24 160 52 142 58 Z" fill="#fff" />
-      <rect x="60" y="52" width="80" height="18" rx="6" fill="#fff" />
-      <path d="M80 30 V50 M100 26 V50 M120 30 V50" strokeWidth={2} opacity={0.4} />
-      {/* 별 머리핀 */}
-      <path d="M140 92 l3 -7 l3 7 l7 1 l-5 5 l1 7 l-6 -3 l-6 3 l1 -7 l-5 -5 z" fill="#ffd96a" strokeWidth={2} />
-      {/* 눈 · 볼 · 입 */}
-      <ellipse cx="82" cy="126" rx="4.6" ry="6.2" fill="#3b2a20" stroke="none" />
-      <ellipse cx="118" cy="126" rx="4.6" ry="6.2" fill="#3b2a20" stroke="none" />
-      <circle cx="83.6" cy="123.4" r="1.5" fill="#fff" stroke="none" />
-      <circle cx="119.6" cy="123.4" r="1.5" fill="#fff" stroke="none" />
-      <ellipse cx="70" cy="140" rx="10" ry="6" fill={BLUSH} stroke="none" opacity={0.6} />
-      <ellipse cx="130" cy="140" rx="10" ry="6" fill={BLUSH} stroke="none" opacity={0.6} />
-      <path d="M95 140 Q100 145 105 140" strokeWidth={2.4} />
-      {/* 오므라이스 접시를 든 손 */}
-      <ellipse cx="100" cy="200" rx="44" ry="12" fill="#fff" />
-      <path d="M72 196 C72 180 86 174 100 174 C114 174 128 180 128 196 C120 202 80 202 72 196 Z" fill={EGG} />
-      <path d="M92 186 C88 180 96 176 100 182 C104 176 112 180 108 186 L100 194 Z" fill={KETCHUP} stroke="none" />
-      <circle cx="58" cy="198" r="10" fill={SKIN} />
-      <circle cx="142" cy="198" r="10" fill={SKIN} />
+      {/* 뒷머리 (어깨 아래까지 웨이브) */}
+      <path
+        d="M100 44 C58 44 36 74 38 110 C38 132 28 146 32 168 C34 182 26 194 34 206 C42 216 56 212 60 202 C66 212 78 210 80 198 L120 198 C122 210 134 212 140 202 C144 212 158 216 166 206 C174 194 166 182 168 168 C172 146 162 132 162 110 C164 74 142 44 100 44 Z"
+        fill={HAIR}
+      />
+      <path d="M44 150 C40 162 44 176 40 190 M156 150 C160 162 156 176 160 190" stroke={hairLine} strokeWidth={2} opacity={0.6} />
+      {/* 요리사 옷 + 분홍 앞치마 */}
+      <path d="M62 178 C56 198 54 222 58 240 H142 C146 222 144 198 138 178 C126 168 74 168 62 178 Z" fill="#fffdf8" />
+      <path d="M86 172 L100 186 L114 172" fill="none" strokeWidth={2.4} />
+      <path d="M72 196 H128 L132 240 H68 Z" fill="#ffc9d4" />
+      <path d="M92 214 C88 208 96 204 100 210 C104 204 112 208 108 214 L100 222 Z" fill="#fff" strokeWidth={2} />
+      {/* 귀 · 얼굴 */}
+      <ellipse cx="147" cy="130" rx="8" ry="10" fill={SKIN} />
+      <ellipse cx="100" cy="126" rx="47" ry="43" fill={SKIN} />
+      {/* 앞머리 (물결 모양) */}
+      <path
+        d="M54 122 C50 86 72 68 100 68 C128 68 150 86 146 122 C140 110 136 100 130 96 C128 106 122 112 112 113 C115 103 111 94 104 91 C100 102 92 108 82 109 C85 101 83 95 79 92 C74 103 64 110 54 122 Z"
+        fill={HAIR}
+      />
+      <path d="M96 76 C92 84 92 92 94 98 M118 78 C122 86 124 92 124 98 M78 82 C74 88 72 94 72 100" stroke={hairLine} strokeWidth={2} opacity={0.6} />
+      {/* 옆머리 (얼굴 앞으로 내려오는 웨이브) */}
+      <path d="M58 112 C44 130 50 150 44 166 C40 180 48 192 60 188 C54 178 62 168 60 156 C58 142 66 130 64 118 Z" fill={HAIR} />
+      <path d="M142 112 C156 130 150 150 156 166 C160 180 152 192 140 188 C146 178 138 168 140 156 C142 142 134 130 136 118 Z" fill={HAIR} />
+      {/* 작은 요리 모자 */}
+      <path d="M68 60 C52 56 52 32 72 30 C74 16 94 12 100 22 C106 12 126 16 128 30 C148 32 148 56 132 60 Z" fill="#fff" />
+      <rect x="68" y="52" width="64" height="14" rx="5" fill="#fff" />
+      <path d="M86 34 V50 M100 30 V50 M114 34 V50" strokeWidth={1.8} opacity={0.35} />
+      {/* 딸기 머리핀 */}
+      <path d="M140 84 C130 86 128 100 136 106 C142 110 152 104 152 94 C152 86 146 82 140 84 Z" fill="#e8553f" />
+      <path d="M136 84 L132 76 L140 80 L144 74 L146 82 L154 80 L148 88 Z" fill="#8cc084" strokeWidth={2} />
+      <path d="M137 92 v1.5 M144 90 v1.5 M141 98 v1.5 M147 97 v1.5" stroke="#fff3c4" strokeWidth={2} />
+      {/* 눈 · 코 · 볼 */}
+      <ellipse cx="80" cy="132" rx="4.4" ry="5.8" fill="#2f211a" stroke="none" />
+      <ellipse cx="120" cy="132" rx="4.4" ry="5.8" fill="#2f211a" stroke="none" />
+      <path d="M102.5 141 a2.6 2.6 0 1 0 0 4.4" strokeWidth={2} />
+      <ellipse cx="68" cy="146" rx="11" ry="8" fill="#f59a9a" stroke="none" opacity={0.75} filter="url(#blush)" />
+      <ellipse cx="132" cy="146" rx="11" ry="8" fill="#f59a9a" stroke="none" opacity={0.75} filter="url(#blush)" />
+      {/* 오므라이스 접시를 든 동그란 손 */}
+      <ellipse cx="100" cy="206" rx="42" ry="11" fill="#fff" />
+      <path d="M74 202 C74 186 88 180 100 180 C112 180 126 186 126 202 C118 208 82 208 74 202 Z" fill={EGG} />
+      <path d="M92 192 C88 186 96 182 100 188 C104 182 112 186 108 192 L100 200 Z" fill={KETCHUP} stroke="none" />
+      <circle cx="58" cy="204" r="11" fill={SKIN} />
+      <circle cx="142" cy="204" r="11" fill={SKIN} />
     </Svg>
   )
 }
@@ -361,7 +375,7 @@ export function Pencil({ size = 40 }: { size?: number | string }) {
 export function SewButton({ color, size = 26 }: { color: string; size?: number }) {
   return (
     <svg viewBox="0 0 40 40" width={size} height={size} aria-hidden>
-      <g filter="url(#crayon)" stroke={INK} strokeWidth={2.2}>
+      <g filter="url(#wobble)" stroke={INK} strokeWidth={2.2}>
         <circle cx="20" cy="20" r="16" fill={color} />
         <circle cx="20" cy="20" r="11" fill="none" opacity={0.35} />
         {[[16, 16], [24, 16], [16, 24], [24, 24]].map(([x, y]) => (
@@ -376,7 +390,7 @@ export function SewButton({ color, size = 26 }: { color: string; size?: number }
 export function Bow({ color = '#fff', size = 46 }: { color?: string; size?: number }) {
   return (
     <svg viewBox="0 0 60 40" width={size} height={size * (40 / 60)} aria-hidden>
-      <g filter="url(#crayon)" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" fill={color}>
+      <g filter="url(#wobble)" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" fill={color}>
         <path d="M30 18 C20 4 4 6 6 18 C8 30 22 28 30 18 Z" />
         <path d="M30 18 C40 4 56 6 54 18 C52 30 38 28 30 18 Z" />
         <path d="M28 20 L20 38 L26 36 L30 22 Z M32 20 L40 38 L34 36 L30 22 Z" />
